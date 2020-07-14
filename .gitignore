@@ -1,6 +1,8 @@
 *.swp
 *.vim
 *.o
+*.so
+*.dylib
 *.output
 build/
 vcdtool/vcdtool
