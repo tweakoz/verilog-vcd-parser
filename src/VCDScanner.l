@@ -4,7 +4,7 @@
 */
 
 %{
-    
+
 #include <cerrno>
 #include <climits>
 #include <cstdlib>
@@ -21,7 +21,7 @@
 #define yyterminate() return VCDParser::parser::make_END(loc)
 
 static VCDParser::location loc;
-    
+
 %}
 
 %option noyywrap nounput batch debug noinput
@@ -29,7 +29,7 @@ static VCDParser::location loc;
 BRACKET_O           \[
 BRACKET_C           \]
 COLON               :
-KW_END              $end 
+KW_END              $end
 KW_COMMENT          $comment
 KW_DATE             $date
 KW_ENDDEFINITIONS   $enddefinitions
@@ -68,13 +68,14 @@ VAR_TYPE_WAND       wand
 VAR_TYPE_WIRE       wire
 VAR_TYPE_WOR        wor
 HASH                #
-SCALAR_NUM          0|1|x|X|z|Z       
-
-BIN_NUM             (b|B)(0|1|x|X|z|Z)+
-REAL_NUM            (r|r)(0-9)+[\.(0.9)+]
-IDENTIFIER_CODE     [a-zA-Z_0-9!/\,\.@':~#\*\(\)\+\{\}\$\%\[\]`\"&;<>=\?\-\^\(\)\|\\]+
-SCOPE_IDENTIFIER    [a-zA-Z_][a-zA-Z_0-9\(\)]*
-
+SCALAR_NUM          0|1|x|X|z|Z
+BIN_NUM             (b|B){SCALAR_NUM}+
+FIXED_POINT_NUMBER  (\+|-)?{DECIMAL_NUM}(\.{DECIMAL_NUM})?
+FLOAT_POINT_NUMBER  (\+|-)?{DECIMAL_NUM}(\.{DECIMAL_NUM})?(e|E)(\+|-)?{DECIMAL_NUM}
+REAL_NUM            (r|R)({FLOAT_POINT_NUMBER}|{FIXED_POINT_NUMBER})
+GRAPHICAL_ASCII_CHAR [a-zA-Z0-9!"#$%&'()*+,-./:;<=>?@\[\\\]^_`{|}~]
+IDENTIFIER_CODE     {GRAPHICAL_ASCII_CHAR}+
+SCOPE_IDENTIFIER    [a-zA-Z_]{GRAPHICAL_ASCII_CHAR}*
 DECIMAL_NUM         [0-9]+
 
 COMMENT_TEXT        [^("$")]*
